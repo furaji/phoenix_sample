@@ -1,0 +1,10 @@
+- name: Prepare server
+  sudo: yes
+  hosts: web
+  roles:
+    - yum
+
+- name: Prepare server
+  hosts: web
+  roles:
+    - anyenv

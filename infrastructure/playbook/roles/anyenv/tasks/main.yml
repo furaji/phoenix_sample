@@ -1,0 +1,69 @@
+- name: checkout anyenv_repo for system
+  git:
+    repo: "{{ anyenv.git_url }}"
+    dest: "{{ anyenv.install_dir }}"
+
+- name: add anyenv initialization
+  template:
+    src: anyenv.sh.j2
+    dest: /etc/profile.d/anyenv.sh
+    owner: root
+    group: root
+    mode: 0755
+  become: yes
+
+- name: checkout kerl_repo for system
+  get_url:
+    url: "{{ kerl.git_url }}"
+    dest: "{{ kerl.install_dir }}"
+    mode: 0755
+
+- name: erlenv installed?
+  stat:
+    path: "{{ anyenv.install_dir }}/envs/erlenv"
+  register: erlenv_installed
+
+- name: install erlenv
+  shell: bash -lc "anyenv install erlenv"
+  when: not erlenv_installed.stat.exists
+
+- name: erlang installed?
+  shell: bash -lc "erlenv global"
+  register: erlenv_global_version
+  changed_when: false
+
+- name: install erlang
+  shell: >
+    bash -lc "./kerl build {{ anyenv_erlenv_version }} {{ anyenv_erlenv_version }}"
+  when: erlenv_global_version.stdout == "system"
+
+- name: install erlang
+  shell: >
+    bash -lc "./kerl install {{ anyenv_erlenv_version }} {{ home_dir }}/.anyenv/envs/erlenv/releases/{{ anyenv_erlenv_version }}"
+  when: erlenv_global_version.stdout == "system"
+
+- name: global erlang
+  shell: bash -lc "erlenv global {{ anyenv_erlenv_version }}"
+  when: erlenv_global_version.stdout == "system"
+
+- name: exenv installed?
+  stat:
+    path: "{{ anyenv.install_dir }}/envs/exenv"
+  register: exenv_installed
+
+- name: install exenv
+  shell: bash -lc "anyenv install exenv"
+  when: not exenv_installed.stat.exists
+
+- name: elixir installed?
+  shell: bash -lc "exenv global"
+  register: exenv_global_version
+  changed_when: false
+
+- name: install elixir
+  shell: bash -lc "exenv install {{ anyenv_exenv_version }}"
+  when: exenv_global_version.stdout == "system"
+
+- name: global elixir
+  shell: bash -lc "exenv global {{ anyenv_exenv_version }}"
+  when: exenv_global_version.stdout == "system"
