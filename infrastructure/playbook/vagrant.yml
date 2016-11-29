@@ -3,6 +3,7 @@
   hosts: web
   roles:
     - yum
+    - postgresql
 
 - name: Prepare server
   hosts: web

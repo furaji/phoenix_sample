@@ -1,0 +1,46 @@
+- name: Is init postgresql?
+  stat:
+    path: "/var/lib/pgsql/9.4/data/PG_VERSION"
+  register: f
+
+- name: Init postgresql
+  shell: /usr/pgsql-9.4/bin/postgresql94-setup initdb
+  when: not f.stat.exists
+
+- name: Enable postgresql service
+  service:
+    name: postgresql-9.4
+    enabled: yes
+    state: started
+
+- name: Create DB
+  sudo_user: postgres
+  postgresql_db:
+    name: "{{ db_name }}"
+    encoding: 'UTF-8'
+    login_user: postgres
+
+- name: Create user
+  sudo_user: postgres
+  postgresql_user:
+    db: "{{ db_name }}"
+    name: vagrant
+    priv: ALL
+    state: present
+    login_user: postgres
+
+- name: Create test DB
+  sudo_user: postgres
+  postgresql_db:
+    name: "{{ test_db_name }}"
+    encoding: 'UTF-8'
+    login_user: postgres
+
+- name: Create test user
+  sudo_user: postgres
+  postgresql_user:
+    db: "{{ test_db_name }}"
+    name: vagrant
+    priv: ALL
+    state: present
+    login_user: postgres
