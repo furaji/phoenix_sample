@@ -15,13 +15,14 @@
     - autoconf
     - automake
     - bison
+    - file-devel
     - gcc
     - gcc-c++
     - git
     - glibc-devel
     - glibc-headers
-    - file-devel
     - httpd-tools
+    - inotify-tools
     - libcurl-devel
     - libffi-devel
     - libtool
