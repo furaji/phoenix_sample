@@ -1,0 +1,5 @@
+kerl:
+  git_url: https://raw.githubusercontent.com/kerl/kerl/master/kerl
+  install_dir:  ~/kerl
+
+erlenv_version: 19.1

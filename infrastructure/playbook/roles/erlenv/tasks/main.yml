@@ -1,0 +1,33 @@
+- name: checkout kerl_repo for system
+  get_url:
+    url: "{{ kerl.git_url }}"
+    dest: "{{ kerl.install_dir }}"
+    mode: 0755
+
+- name: erlenv installed?
+  stat:
+    path: "{{ anyenv.install_dir }}/envs/erlenv"
+  register: erlenv_installed
+
+- name: install erlenv
+  shell: bash -lc "anyenv install erlenv"
+  when: not erlenv_installed.stat.exists
+
+- name: erlang installed?
+  shell: bash -lc "erlenv global"
+  register: erlenv_global_version
+  changed_when: false
+
+- name: install erlang
+  shell: >
+    bash -lc "./kerl build {{ erlenv_version }} {{ erlenv_version }}"
+  when: erlenv_global_version.stdout == "system"
+
+- name: install erlang
+  shell: >
+    bash -lc "./kerl install {{ erlenv_version }} {{ home_dir }}/.anyenv/envs/erlenv/releases/{{ erlenv_version }}"
+  when: erlenv_global_version.stdout == "system"
+
+- name: global erlang
+  shell: bash -lc "erlenv global {{ erlenv_version }}"
+  when: erlenv_global_version.stdout == "system"
