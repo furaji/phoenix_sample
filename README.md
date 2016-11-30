@@ -7,6 +7,8 @@ To start your Phoenix app:
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
+If you want changing port edit [this.](https://github.com/furaji/phoenix_sample/blob/master/Vagrantfile#L10)
+
 Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
 
 ## Learn more
