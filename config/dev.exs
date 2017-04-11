@@ -36,6 +36,8 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :phoenix_sample, PhoenixSample.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "vagrant",
-  database: "phoenix_sample",
+  username: "postgres",
+  password: "postgres",
+  database: "phoenix_sample_dev",
+  hostname: "db",
   pool_size: 10
