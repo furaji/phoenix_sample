@@ -1,0 +1,23 @@
+<h2>Show book</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @book.name %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @book.description %>
+  </li>
+
+  <li>
+    <strong>Page:</strong>
+    <%= @book.page %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: book_path(@conn, :edit, @book) %>
+<%= link "Back", to: book_path(@conn, :index) %>
