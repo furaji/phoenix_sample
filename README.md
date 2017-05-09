@@ -4,10 +4,10 @@ To start your Phoenix app:
 
   * Start Phoenix `docker-compose up -d`
   * first time
-    * `docker-compose run web mix ecto.create`
-    * `docker-compose run web mix deps.get`
-    * `docker-compose run web npm install`
-    * and `docker-compose restart`
+    1. `docker-compose run web mix deps.get`
+    2. `docker-compose run web mix ecto.create`
+    3. `docker-compose run web npm install`
+    4. and `docker-compose restart`
   * if you change mix.exs `docker-compose run web mix deps.get`
   * if you change package.json `docker-compose run web npm install`
 
